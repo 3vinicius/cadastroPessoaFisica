@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS clientes;
 --------------------------- CRIACAO DA TABELA
 
 CREATE TABLE clientes (
-                               id BIGSERIAL PRIMARY KEY,
+                               id BIGSERIAL PRIMARY KEY UNIQUE NOT NULL,
                                nome VARCHAR(150) NOT NULL,
                                idade INT ,
                                cpf CHAR(12) NOT NULL UNIQUE,
@@ -44,5 +44,18 @@ FROM (
      ) AS t;
 
 
+
+--------------------------- CRIANDO USUARIO PARA ACESSO AO BANCO
+
+DROP TABLE IF EXISTS usuarios;
+
+
+CREATE TABLE usuarios (
+                          id BIGSERIAL PRIMARY KEY UNIQUE NOT NULL ,
+                          email VARCHAR(120) UNIQUE NOT NULL,
+                          senha VARCHAR(120)  NOT NULL,
+                          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+                          updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
 
 

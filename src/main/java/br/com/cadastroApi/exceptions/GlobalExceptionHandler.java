@@ -1,5 +1,6 @@
 package br.com.cadastroApi.exceptions;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataAccessException;
@@ -116,6 +117,22 @@ public class GlobalExceptionHandler {
         response.put("path", request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+
+
+    @ExceptionHandler(JWTCreationException.class)
+    public ResponseEntity<Map<String, Object>> handleJWTCreationException(
+            JWTCreationException ex, HttpServletRequest request) {
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", System.currentTimeMillis());
+        response.put("status", 400);
+        response.put("error", "Geracao de token JWT");
+        response.put("message", ex.getMessage());
+        response.put("path", request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
 }

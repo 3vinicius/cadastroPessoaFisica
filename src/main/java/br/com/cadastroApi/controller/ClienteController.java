@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Validated
-@RequestMapping("cliente")
+@RequestMapping("/cliente")
 public class ClienteController {
 
     private final ClienteService clienteService;

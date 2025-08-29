@@ -11,7 +11,7 @@ O desafio conssite em criar uma API REST para o cadastro de  pessoa fisisca, sen
 - [x] Permita buscas por atributos cadastrais do cliente. 
 - [x] É necessário também que cada elemento retornado pela API contenha (além das informações de cadastro) a idade calculada a partir da data de nascimento. 
 - [x] Utilize Swagger para documentação/especificação da API.
-- [ ] Utilize Spring Security e JWT para segurança da aplicação. 
+- [x] Utilize Spring Security e JWT para segurança da aplicação. 
 - [x] Utilize Spring Data JPA para abstração da camada de acesso a dados. Critérios que iremos utilizar para avaliar o seu Desafio Técnico: 
 - [x] Utilização de boas práticas de código. 
 - [x] Utilização de padrões de projeto. 
@@ -26,6 +26,8 @@ O desafio conssite em criar uma API REST para o cadastro de  pessoa fisisca, sen
 - [x] Tratamento de Exceções Globais.
 - [x] Utilização de DTOs para requisições e respostas.
 - [x] Utilização de Profiles para separar configuração de desenvolvimento e produção.
+- [x] Utilização de um script SQL para criação das tabelas e carga inicial de dados.
+- [x] Utilização de Mapper para conversão entre Entidades e DTOs.
 - [x] Requisção para api ``viaCep`` externa para validação de cep.
 
 ## Tecnologias Utilizadas
@@ -61,6 +63,8 @@ Essa função pega a diferença entre a data atual e a data de nascimento e reto
 
 - A validação do CPF, CEP , email e telefone será feita via Bean Validation utilizando as anotações `@CPF`, `@Email` e `@Pattern` respectivamente.
 - A validação do CEP será feita com a seguinte regex `^\d{5}-\d{3}$` que valida o formato `12345-678` além disso será utilizado uma api de validação `via Cep` para garantir que o cep existe.
+- Adicionado usuarios para autenticação com jwt no banco de dados.
+
 
 ## Funcionalidades Planejadas
 - Cadastro de cliente.
