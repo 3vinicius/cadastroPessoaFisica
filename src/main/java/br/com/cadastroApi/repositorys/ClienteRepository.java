@@ -17,4 +17,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     Optional<List<Cliente>> findByEnderecoContainingIgnoreCase(String rua);
 
     Optional<List<Cliente>> findByIdade(Integer idade);
+
+    Optional<List<Cliente>> findByTelefoneContainingIgnoreCase(String telefone);
+
+    Optional<List<Cliente>> findByCepContainingIgnoreCase(String cep);
 }

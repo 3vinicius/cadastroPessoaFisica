@@ -23,7 +23,10 @@ O desafio conssite em criar uma API REST para o cadastro de  pessoa fisisca, sen
 - [x] Validação de Cep, cpf e email via Bean.
 - [x] Utilização do Lombok para reduzir boilerplate code.
 - [ ] Utilização do SLF4J para logs.
-- [ ]
+- [x] Tratamento de Exceções Globais.
+- [x] Utilização de DTOs para requisições e respostas.
+- [x] Utilização de Profiles para separar configuração de desenvolvimento e produção.
+- [x] Requisção para api ``viaCep`` externa para validação de cep.
 
 ## Tecnologias Utilizadas
 - Java
@@ -45,8 +48,19 @@ unir dois projetos que ja possuo, um unico.
 -  Para proteger os recursos da API o arquivo de configuração estará dividido em dois tipos um de produção e outro de desenvolvimento, onde o de desenvolvimento.
 - Também será utilizado o um default sql para subir as tabelas necessarias e da a carga na aplicação.
 - A imagem abaixo mostra o diagrama UML das entidades do baco
-![img.png](img.png)
+![img_1.png](img_1.png)
 - Resolvi cadastrar a idade do cliente no banco de dados para evitar o calculo toda vez que for buscar todos os cliente
+- Ao cadastrar ou atilizar o cliente a idade sera calculada com a função `geradorDeIdade` e salva no banco de dados.
+```java
+ private Integer geradorDeIdade(LocalDate dataNascimento) {
+        LocalDate dataAtual = LocalDate.now();
+        return  Period.between(dataNascimento, dataAtual).getYears();
+    }
+```
+Essa função pega a diferença entre a data atual e a data de nascimento e retorna a idade em anos.
+
+- A validação do CPF, CEP , email e telefone será feita via Bean Validation utilizando as anotações `@CPF`, `@Email` e `@Pattern` respectivamente.
+- A validação do CEP será feita com a seguinte regex `^\d{5}-\d{3}$` que valida o formato `12345-678` além disso será utilizado uma api de validação `via Cep` para garantir que o cep existe.
 
 ## Funcionalidades Planejadas
 - Cadastro de cliente.

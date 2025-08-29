@@ -4,21 +4,26 @@ package br.com.cadastroApi.controller;
 import br.com.cadastroApi.dto.ClienteAtualizarDto;
 import br.com.cadastroApi.dto.ClienteCadastrarDto;
 import br.com.cadastroApi.dto.ClienteDto;
-import br.com.cadastroApi.model.Cliente;
+import org.hibernate.validator.constraints.br.CPF;
 import br.com.cadastroApi.services.ClienteService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Validated
 @RequestMapping("cliente")
 public class ClienteController {
 
     private final ClienteService clienteService;
+
 
 
     @PostMapping()
@@ -32,8 +37,8 @@ public class ClienteController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<String> deletarCliente(@RequestParam Long id) {
-        return ResponseEntity.ok().body(clienteService.deletarCliente(id));
+    public void deletarCliente(@RequestParam Long id) {
+        clienteService.deletarCliente(id);
     }
 
     @GetMapping("paginacao")
@@ -60,12 +65,15 @@ public class ClienteController {
     }
 
     @GetMapping("cpf")
-    public ResponseEntity<ClienteDto> buscarPorCpf(@RequestParam String cpf) {
+    public ResponseEntity<ClienteDto> buscarPorCpf(
+            @RequestParam
+            @CPF
+            String cpf) {
         return ResponseEntity.ok().body(clienteService.buscarPorCpf(cpf));
     }
 
     @GetMapping("email")
-    public ResponseEntity<ClienteDto> buscarPorEmail(@RequestParam String email) {
+    public ResponseEntity<ClienteDto> buscarPorEmail( @Email(message = "E-mail inválido. Formato esperado: teste@gmail.com") @RequestParam String email) {
         return ResponseEntity.ok().body(clienteService.buscarPorEmail(email));
     }
 
@@ -78,6 +86,32 @@ public class ClienteController {
     public ResponseEntity<List<ClienteDto>> buscarPorIdade(@RequestParam Integer idade) {
         return ResponseEntity.ok().body(clienteService.buscarPorIdade(idade));
     }
+
+    @GetMapping("telefone")
+    public ResponseEntity<List<ClienteDto>> buscarPorTelefone(
+            @RequestParam
+            @Pattern(
+                    regexp = "^\\+?\\d{2,3}?[- .]?\\(?\\d{2,3}\\)?[- .]?\\d{4,5}[- .]?\\d{4}$",
+                    message = "Telefone inválido. Formato esperado: +55 (11) 91234-5678"
+            )
+            String telefone) {
+        return ResponseEntity.ok().body(clienteService.buscarPorTelefone(telefone));
+    }
+
+    @GetMapping("cep")
+    public ResponseEntity<List<ClienteDto>> buscarPorCep(
+            @RequestParam
+            @Pattern(
+                    regexp = "^\\d{5}-\\d{3}$",
+                    message = "CEP inválido. Formato esperado: 12345-678"
+            )
+            String cep) {
+
+
+        return ResponseEntity.ok().body(clienteService.buscarPorCep(cep));
+    }
+
+
 
 
 }
