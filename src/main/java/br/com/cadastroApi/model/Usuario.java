@@ -58,6 +58,12 @@ public class Usuario implements UserDetails {
     public String getUsername() {
         return email;
     }
+    public Usuario() {}
 
-
+    public Usuario(String email, String senha, LocalDateTime createdAt,  LocalDateTime updatedAt) {
+        this.email = email;
+        this.senha = senha;
+        this.updatedAt = updatedAt;
+        this.createdAt = createdAt;
+    }
 }

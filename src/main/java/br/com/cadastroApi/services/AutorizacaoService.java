@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Service
@@ -27,11 +26,10 @@ public class AutorizacaoService implements UserDetailsService {
         if (usuarioRepository.findByEmail(email) != null) {
             throw new DuplicateKeyException("Email já cadastrado " );
         }
-        Usuario usuario = new Usuario();
-        usuario.setEmail(email);
-        usuario.setSenha(new BCryptPasswordEncoder().encode(senha));
-        usuario.setUpdatedAt(LocalDateTime.now());
-        usuario.setCreatedAt(LocalDateTime.now());
+        Usuario usuario = new Usuario(email,
+                new BCryptPasswordEncoder().encode(senha),
+                LocalDateTime.now(),
+                LocalDateTime.now());
 
         usuarioRepository.save(usuario);
     }

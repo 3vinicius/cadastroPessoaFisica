@@ -130,8 +130,6 @@ public class ClienteService {
     }
 
 
-
-
     private Integer obterIdadePorNascimento(LocalDate dataNascimento) {
         LocalDate dataAtual = LocalDate.now();
 
