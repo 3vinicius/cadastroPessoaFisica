@@ -18,11 +18,11 @@ public class CepApiService {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("https://viacep.com.br/ws/"+cepFormatado+"/json/")).GET().build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-           if (response.body().contains("\"erro\": true")){
-               throw new CepInvalidoException("CEP inválido");
+           if (response.body().contains("\"erro\": \"true\"") || response.statusCode() != 200) {
+               throw new RuntimeException("");
            }
         } catch (Exception e) {
-            throw new CepInvalidoException("Erro: " + e.getMessage());
+            throw new CepInvalidoException("Erro: CEP inválido");
         }
     }
 
