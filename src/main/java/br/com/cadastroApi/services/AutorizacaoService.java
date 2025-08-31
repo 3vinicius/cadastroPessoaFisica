@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AutorizacaoService implements UserDetailsService {
     private final UsuarioRepository usuarioRepository;
-    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -29,7 +29,7 @@ public class AutorizacaoService implements UserDetailsService {
             throw new DuplicateKeyException("Email já cadastrado " );
         }
         Usuario usuario = new Usuario(email,
-                passwordEncoder.encode(senha),
+                new BCryptPasswordEncoder().encode(senha),
                 LocalDateTime.now(),
                 LocalDateTime.now());
 
