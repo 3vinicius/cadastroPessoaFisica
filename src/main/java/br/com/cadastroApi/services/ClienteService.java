@@ -78,22 +78,25 @@ public class ClienteService {
 
     public ClienteDto buscarClientePorId(Long id) {
         return clienteRepository.findById(id)
-                .stream().map(ClienteMapper::clienteParaDto).toList().getFirst();
+                .stream()
+                .map(ClienteMapper::clienteParaDto)
+                .findFirst()
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com id: " + id));
     }
 
     public List<ClienteDto> buscarPorNome(String nome) {
-        return clienteRepository.findByNomeContainingIgnoreCase(nome)
+        return clienteRepository.findByNomeContainingIgnoreCase(nome).orElse(Collections.emptyList())
                 .stream().map(ClienteMapper::clienteParaDto).toList();
     }
 
     public ClienteDto buscarPorCpf(String cpf) {
         return clienteRepository.findByCpfContains(cpf)
-                .stream().map(ClienteMapper::clienteParaDto).toList().getFirst();
+                .stream().map(ClienteMapper::clienteParaDto).findFirst().orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com cpf: "+ cpf));
     }
 
     public ClienteDto buscarPorEmail(String email) {
         return clienteRepository.findByEmailContainingIgnoreCase(email)
-                .stream().map(ClienteMapper::clienteParaDto).toList().getFirst();
+                .stream().map(ClienteMapper::clienteParaDto).findFirst().orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com email: "+ email));
     }
 
     public List<ClienteDto> buscarPorEndereco(String endereco) {
@@ -112,7 +115,7 @@ public class ClienteService {
             var pageResult = clienteRepository.findAll(pageable);
             return pageResult.getContent().stream().map(ClienteMapper::clienteParaDto).toList();
         } catch(Exception e){
-            throw new RuntimeException("Erro ao buscar clientes com paginação " + e.getMessage());
+            throw new ClienteNaoEncontradoException("Cliente não encontrado");
         }
     }
 
