@@ -2,6 +2,7 @@ package br.com.cadastroApi.mapper;
 
 import br.com.cadastroApi.dto.ClienteAtualizarDto;
 import br.com.cadastroApi.dto.ClienteCadastrarDto;
+import br.com.cadastroApi.dto.ClienteDto;
 import br.com.cadastroApi.model.Cliente;
 
 
@@ -57,4 +58,20 @@ public class ClienteMapper {
         }
     }
 
+
+    public static ClienteDto clienteParaDto(Cliente cliente) {
+        return new ClienteDto(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getCpf(),
+                cliente.getDataNascimento(),
+                cliente.getEmail(),
+                cliente.getTelefone(),
+                cliente.getEndereco(),
+                cliente.getCep(),
+                cliente.getIdade(),
+                cliente.getCreatedAt(),
+                cliente.getUpdatedAt()
+        );
+    }
 }

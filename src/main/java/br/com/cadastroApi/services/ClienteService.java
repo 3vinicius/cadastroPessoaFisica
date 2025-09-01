@@ -29,7 +29,7 @@ public class ClienteService {
     private final CepApiService cepApiService;
 
     public List<ClienteDto> buscarClientes(){
-        return clienteRepository.findAll().stream().map(ClienteDto::new).toList();
+        return clienteRepository.findAll().stream().map(ClienteMapper::clienteParaDto).toList();
     }
 
     public void deletarCliente(Long id){
@@ -52,7 +52,7 @@ public class ClienteService {
             cepApiService.validarCep(cliente.getCep());
 
             cliente.setUpdatedAt(LocalDateTime.now());
-            return new ClienteDto(clienteRepository.save(cliente));
+            return ClienteMapper.clienteParaDto(clienteRepository.save(cliente));
         } catch (DataIntegrityViolationException e) {
             throw new DuplicateKeyException(extrairMensagemDuplicada(e));
         }
@@ -70,7 +70,7 @@ public class ClienteService {
             cliente.setCreatedAt(LocalDateTime.now());
             cliente.setIdade(obterIdadePorNascimento(clienteCadastrarDto.dataNascimento()));
 
-            return new ClienteDto(clienteRepository.save(cliente));
+            return ClienteMapper.clienteParaDto(clienteRepository.save(cliente));
         }catch (DataIntegrityViolationException e){
             throw new DuplicateKeyException(extrairMensagemDuplicada(e));
         }
@@ -78,39 +78,39 @@ public class ClienteService {
 
     public ClienteDto buscarClientePorId(Long id) {
         return clienteRepository.findById(id)
-                .stream().map(ClienteDto::new).toList().getFirst();
+                .stream().map(ClienteMapper::clienteParaDto).toList().getFirst();
     }
 
     public List<ClienteDto> buscarPorNome(String nome) {
         return clienteRepository.findByNomeContainingIgnoreCase(nome)
-                .stream().map(ClienteDto::new).toList();
+                .stream().map(ClienteMapper::clienteParaDto).toList();
     }
 
     public ClienteDto buscarPorCpf(String cpf) {
         return clienteRepository.findByCpfContains(cpf)
-                .stream().map(ClienteDto::new).toList().getFirst();
+                .stream().map(ClienteMapper::clienteParaDto).toList().getFirst();
     }
 
     public ClienteDto buscarPorEmail(String email) {
         return clienteRepository.findByEmailContainingIgnoreCase(email)
-                .stream().map(ClienteDto::new).toList().getFirst();
+                .stream().map(ClienteMapper::clienteParaDto).toList().getFirst();
     }
 
     public List<ClienteDto> buscarPorEndereco(String endereco) {
         return clienteRepository.findByEnderecoContainingIgnoreCase(endereco).orElse(Collections.emptyList())
-                .stream().map(ClienteDto::new).toList();
+                .stream().map(ClienteMapper::clienteParaDto).toList();
    }
 
     public List<ClienteDto> buscarPorIdade(Integer idade) {
         return clienteRepository.findByIdade(idade).orElse(Collections.emptyList())
-                .stream().map(ClienteDto::new).toList();
+                .stream().map(ClienteMapper::clienteParaDto).toList();
     }
 
     public List<ClienteDto> buscarClientesComPaginacao(Integer page, Integer size){
         try{
             var pageable = PageRequest.of(page, size, Sort.by("nome").ascending());
             var pageResult = clienteRepository.findAll(pageable);
-            return pageResult.getContent().stream().map(ClienteDto::new).toList();
+            return pageResult.getContent().stream().map(ClienteMapper::clienteParaDto).toList();
         } catch(Exception e){
             throw new RuntimeException("Erro ao buscar clientes com paginação " + e.getMessage());
         }
@@ -120,14 +120,14 @@ public class ClienteService {
     public List<ClienteDto> buscarPorTelefone(String telefone){
 
         return clienteRepository.findByTelefoneContainingIgnoreCase(telefone).orElse(Collections.emptyList())
-                .stream().map(ClienteDto::new).toList();
+                .stream().map(ClienteMapper::clienteParaDto).toList();
 
     }
 
     public List<ClienteDto> buscarPorCep(String cep){
         cepApiService.validarCep(cep);
         return clienteRepository.findByCepContainingIgnoreCase(cep).orElse(Collections.emptyList())
-                .stream().map(ClienteDto::new).toList();
+                .stream().map(ClienteMapper::clienteParaDto).toList();
     }
 
 

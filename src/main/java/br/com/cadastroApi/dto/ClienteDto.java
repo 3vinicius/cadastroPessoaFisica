@@ -17,10 +17,4 @@ public record ClienteDto(Long id,
                          Integer idade,
                          LocalDateTime createdAt,
                          LocalDateTime updatedAt) {
-    public ClienteDto(Cliente cliente) {
-
-        this(cliente.getId(), cliente.getNome(), cliente.getCpf(), cliente.getDataNascimento(),
-                cliente.getEmail(), cliente.getTelefone(), cliente.getEndereco(), cliente.getCep(),
-                cliente.getIdade() , cliente.getCreatedAt(), cliente.getUpdatedAt());
-    }
 }
