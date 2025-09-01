@@ -42,11 +42,12 @@ public class ClienteService {
         try{
             Cliente cliente = clienteRepository.findById(clienteAtualizarDto.id()).orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 
-            ClienteMapper.dtoParaCliente(clienteAtualizarDto, cliente);
-
             if (clienteAtualizarDto.dataNascimento() != null && !clienteAtualizarDto.dataNascimento().equals(cliente.getDataNascimento())) {
                 cliente.setIdade(obterIdadePorNascimento(clienteAtualizarDto.dataNascimento()));
             }
+
+            ClienteMapper.dtoParaCliente(clienteAtualizarDto, cliente);
+
 
             cepApiService.validarCep(cliente.getCep());
 
