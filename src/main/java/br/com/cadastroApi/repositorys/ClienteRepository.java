@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    List<Cliente> findByNomeContainingIgnoreCase(String nome);;
+    Optional<List<Cliente>> findByNomeContainingIgnoreCase(String nome);
 
     Optional<Cliente> findByCpfContains(String cpf);
 
