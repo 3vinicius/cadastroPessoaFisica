@@ -54,7 +54,7 @@ class UsuarioDtoTest {
     }
 
     @Test
-    void naoDeveLancarViolacaoCasoTudovalido() {
+    void naoDeveLancarViolacaoCasoTudoValido() {
 
         UsuarioDto usuarioDto = new UsuarioDto("teste@gmail.com","senha123");
 

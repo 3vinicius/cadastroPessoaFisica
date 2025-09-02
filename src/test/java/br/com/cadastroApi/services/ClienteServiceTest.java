@@ -4,6 +4,7 @@ import br.com.cadastroApi.dto.ClienteAtualizarDto;
 import br.com.cadastroApi.dto.ClienteCadastrarDto;
 import br.com.cadastroApi.dto.ClienteDto;
 import br.com.cadastroApi.exceptions.ClienteNaoEncontradoException;
+import br.com.cadastroApi.exceptions.DataInvalidaException;
 import br.com.cadastroApi.mapper.ClienteMapper;
 import br.com.cadastroApi.model.Cliente;
 import br.com.cadastroApi.model.Usuario;
@@ -413,6 +414,24 @@ class ClienteServiceTest {
         List<ClienteDto> listaClienteDto = clienteService.buscarPorCep(this.cliente.getCep());
 
         assertTrue(listaClienteDto.isEmpty());
+    }
+
+    @Test
+    @Description("Deve lançar DataInvalidaException quando data de nascimento for maior que data atual")
+    void deveLancarDataInvalidaExceptionQuandoDataNascimentoForMaiorQueDataAtual() {
+
+        ClienteAtualizarDto clienteAtualizarDto = new ClienteAtualizarDto(1L,null,null,
+                LocalDate.now().plusDays(5),null,null,null,null);
+
+
+
+        when(clienteRepository.findById(1L)).thenReturn(Optional.of(this.cliente));
+
+        Exception exception = assertThrows(DataInvalidaException.class,
+                () -> clienteService.atualizarCliente(clienteAtualizarDto));
+
+        assertTrue(exception.getMessage().contains("Data de nascimento inválida."));
+
     }
 
     private Cliente geradorDeCliente() {
