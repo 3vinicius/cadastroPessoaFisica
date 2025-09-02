@@ -27,12 +27,12 @@ public class ClienteController {
 
 
     @PostMapping()
-    public ResponseEntity<ClienteDto> cadastrarPessoaFisica(@Valid @RequestBody ClienteCadastrarDto clienteCadastrarDto) {
+    public ResponseEntity<ClienteDto> cadastrarCliente(@Valid @RequestBody ClienteCadastrarDto clienteCadastrarDto) {
         return ResponseEntity.ok().body(clienteService.cadastrarCliente(clienteCadastrarDto));
     }
 
     @PutMapping()
-    public ResponseEntity<ClienteDto> atualizarPessoaFisica(@Valid @RequestBody ClienteAtualizarDto clienteDto) {
+    public ResponseEntity<ClienteDto> atualizarCliente(@Valid @RequestBody ClienteAtualizarDto clienteDto) {
         return ResponseEntity.ok().body(clienteService.atualizarCliente(clienteDto));
     }
 
@@ -49,7 +49,7 @@ public class ClienteController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ClienteDto>> buscarPessoasFisica() {
+    public ResponseEntity<List<ClienteDto>> buscarCliente() {
         return ResponseEntity.ok().body(clienteService.buscarClientes());
     }
 
