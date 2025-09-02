@@ -15,12 +15,12 @@ public class ClienteTesteUtils {
         Cliente cliente = new Cliente();
         cliente.setId(1L);
         cliente.setNome("teste");
-        cliente.setCpf("123456789-17");
+        cliente.setCpf("910641310-26");
         cliente.setDataNascimento(LocalDate.now());
         cliente.setEmail("teste@gmail.com");
-        cliente.setTelefone("(92) 9 8954-1541");
+        cliente.setTelefone("+55 (11) 91234-5678");
         cliente.setEndereco("rua teste");
-        cliente.setCep("68753-00");
+        cliente.setCep("57035-003");
         cliente.setIdade(12);
         cliente.setCreatedAt(LocalDateTime.now().minusMonths(5));
         cliente.setUpdatedAt(LocalDateTime.now().minusMonths(2));
