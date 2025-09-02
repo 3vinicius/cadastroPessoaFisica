@@ -5,8 +5,7 @@ import br.com.cadastroApi.model.Usuario;
 import br.com.cadastroApi.repositorys.UsuarioRepository;
 import br.com.cadastroApi.services.AutorizacaoService;
 import br.com.cadastroApi.services.TokenService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -14,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.ProfileValueSourceConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestPropertySource(properties = {
         "token.secret=teste123"
 })
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AutenticacaoControllerTest {
 
     @Autowired
@@ -42,6 +44,7 @@ class AutenticacaoControllerTest {
 
 
     @Test
+    @Order(1)
     void deveCadastrarUsuario() {
 
         autenticacaoController.cadastrar(usuarioDto);
@@ -50,6 +53,7 @@ class AutenticacaoControllerTest {
     }
 
     @Test
+    @Order(2)
     void deveRetornarTokenAoLogar() {
 
         Usuario usuario = new Usuario();
@@ -62,12 +66,14 @@ class AutenticacaoControllerTest {
     }
 
     @Test
+    @Order(3)
+    @Transactional
+    @Commit
     void deveDeletarUsuarioAposTeste() {
         usuarioRepository.deleteByEmail("teste@gmail.com");
-
 
         assertTrue(usuarioRepository.findByEmail("teste@gmail.com") == null);
 
     }
-    
+
 }
