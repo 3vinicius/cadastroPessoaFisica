@@ -7,8 +7,8 @@ import br.com.cadastroApi.exceptions.ClienteNaoEncontradoException;
 import br.com.cadastroApi.exceptions.DataInvalidaException;
 import br.com.cadastroApi.mapper.ClienteMapper;
 import br.com.cadastroApi.model.Cliente;
-import br.com.cadastroApi.model.Usuario;
 import br.com.cadastroApi.repositorys.ClienteRepository;
+import br.com.cadastroApi.utils.ClienteTesteUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -43,15 +43,10 @@ class ClienteServiceTest {
     }
 
 
-    private Cliente cliente = geradorDeCliente();
-    private ClienteDto clienteDto = ClienteMapper.clienteParaDto(this.cliente);
-    private ClienteAtualizarDto clienteAtualizarDto =
-            new ClienteAtualizarDto(1L,cliente.getNome(), clienteDto.cpf(), cliente.getDataNascimento(),cliente.getEmail()
-                    ,cliente.getTelefone(),cliente.getCep(),cliente.getEndereco());
-    private ClienteCadastrarDto clienteCadastrarDto = new ClienteCadastrarDto(cliente.getNome(), clienteDto.cpf(), cliente.getDataNascimento(),cliente.getEmail()
-            ,cliente.getTelefone(),cliente.getCep(),cliente.getEndereco());
-    private ClienteCadastrarDto clienteCadastrarDtoInvalido = new ClienteCadastrarDto(cliente.getNome(), cliente.getCpf(), cliente.getDataNascimento(),cliente.getEmail()
-            ,cliente.getTelefone(),cliente.getCep(),cliente.getEndereco());
+    private Cliente cliente = ClienteTesteUtils.gerarCliente();
+    private ClienteDto clienteDto = ClienteTesteUtils.gerarClienteDto();
+    private ClienteAtualizarDto clienteAtualizarDto = ClienteTesteUtils.gerarClienteAtualizarDto();
+    private ClienteCadastrarDto clienteCadastrarDto = ClienteTesteUtils.gerarClienteCadastrarDto();
 
     @Test
     @Description("Deve retornar uma lista vazia quando não houver clientes cadastrados")
@@ -161,7 +156,7 @@ class ClienteServiceTest {
     @Description("Deve atualizar a ideade com base na data de nascimento do cliente ao alterar a data de nascimento")
     void deveAtualizarIdadeComBaseNaDataDeNascimentoAoAtualizar() {
 
-        this.cliente = geradorDeCliente();
+        this.cliente = ClienteTesteUtils.gerarCliente();
 
         ArgumentCaptor<Cliente> clienteCaptor = ArgumentCaptor.forClass(Cliente.class);
 
@@ -434,20 +429,5 @@ class ClienteServiceTest {
 
     }
 
-    private Cliente geradorDeCliente() {
-        Cliente cliente = new Cliente();
-        cliente.setId(Long.valueOf(1));
-        cliente.setNome("teste");
-        cliente.setCpf("123456789-17");
-        cliente.setDataNascimento(LocalDate.now());
-        cliente.setEmail("teste@gmail.com");
-        cliente.setTelefone("(92) 9 8954-1541");
-        cliente.setEndereco("rua teste");
-        cliente.setCep("68753-00");
-        cliente.setIdade(12);
-        cliente.setCreatedAt(LocalDateTime.now().minusMonths(5));
-        cliente.setUpdatedAt(LocalDateTime.now().minusMonths(2));
-        return cliente;
-    }
 
 }
