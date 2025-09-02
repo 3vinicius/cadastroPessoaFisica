@@ -32,6 +32,7 @@ public record ClienteAtualizarDto(
                 regexp = "^\\d{5}-\\d{3}$",
                 message = "CEP inválido. Formato esperado: 12345-678"
         )
+        @Null
         String cep,
         String endereco) {
 }
