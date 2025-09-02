@@ -12,6 +12,10 @@ public record ClienteAtualizarDto(
         String nome,
 
         @CPF
+        @Pattern(
+                regexp = "^\\d{9}-\\d{2}$",
+                message = "CPF inválido. Formato esperado: 999999999-99"
+        )
         String cpf,
         LocalDate dataNascimento,
 
@@ -19,7 +23,7 @@ public record ClienteAtualizarDto(
         String email,
 
         @Pattern(
-                regexp = "^\\+?\\d{2,3}?[- .]?\\(?\\d{2,3}\\)?[- .]?\\d{4,5}[- .]?\\d{4}$",
+                regexp = "^\\+?\\d{2,3}?[- .]?\\(\\d{2,3}\\)[- .]?\\d{4,5}[- .]?\\d{4}$",
                 message = "Telefone inválido. Formato esperado: +55 (11) 91234-5678"
         )
         String telefone,
